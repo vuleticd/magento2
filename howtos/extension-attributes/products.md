@@ -1,7 +1,12 @@
 Creating custom extension attribute for catalog product entity.
 
-Define database table/s schema for custom extension attribute in `Your/Module/Setup/InstallSchema.php`
+1. Define database table/s schema for custom extension attribute in `Your/Module/Setup/InstallSchema.php`. [code](#InstallSchema)
+2. Define ACL resource for your custom extension attribute in `Your/Module/etc/acl.xml`. [code](#acl)
+3. Define your extension attribute configuration in `Your/Module/etc/extension_attributes.xml`. [code](#extension_attributes)
+4. Define your extension attribute intefrace in `Your\Module\Api\Data\CustomItemInterface.php`. [code](#CustomItemInterface)
 
+
+<a name="InstallSchema"></a>
 ```php
 <?php
 
@@ -71,7 +76,7 @@ class InstallSchema implements InstallSchemaInterface
 }
 ```
 
-Define ACL resource for your custom extension attribute in `Your/Module/etc/acl.xml`
+<a name="acl"></a>
 ```xml
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
@@ -91,8 +96,7 @@ Define ACL resource for your custom extension attribute in `Your/Module/etc/acl.
 </config>
 ```
 
-Define your extension attribute configuration in `Your/Module/etc/extension_attributes.xml`
-
+<a name="extension_attributes"></a>
 ```xml
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Api/etc/extension_attributes.xsd">
@@ -104,6 +108,72 @@ Define your extension attribute configuration in `Your/Module/etc/extension_attr
         </attribute>
     </extension_attributes>
 </config>
+```
+
+<a name="CustomItemInterface"></a>
+```php
+<?php
+
+namespace Your\Module\Api\Data;
+
+use Magento\Framework\Api\ExtensibleDataInterface;
+
+interface CustomItemInterface extends ExtensibleDataInterface
+{
+    const ITEM_ID = 'item_id';
+    const PRODUCT_ID = 'product_id';
+    const CUSTOM_ATTR = 'custom_attr';
+  
+    /**
+     * @return int|null
+     */
+    public function getItemId();
+
+    /**
+     * @param int $itemId
+     * @return $this
+     */
+    public function setItemId($itemId);
+
+    /**
+     * @return int|null
+     */
+    public function getProductId();
+
+    /**
+     * @param int $productId
+     * @return $this
+     */
+    public function setProductId($productId);
+  
+    /**
+     * @return int|null
+     */
+    public function getCustomAttr();
+
+    /**
+     * @param int $customAttr
+     * @return $this
+     */
+    public function setCustomAttr($customAttr);
+  
+    /**
+     * Retrieve existing extension attributes object or create a new one.
+     *
+     * @return \Your\Module\Api\Data\CustomItemInterface|null
+     */
+    public function getExtensionAttributes();
+
+    /**
+     * Set an extension attributes object.
+     *
+     * @param \Your\Module\Api\Data\CustomItemInterface $extensionAttributes
+     * @return $this
+     */
+    public function setExtensionAttributes(
+        \Your\Module\Api\Data\CustomItemInterface $extensionAttributes
+    );
+}
 ```
 
 
