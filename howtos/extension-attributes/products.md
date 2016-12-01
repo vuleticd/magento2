@@ -1,9 +1,9 @@
-Creating custom extension attribute for catalog product entity.
+# Custom extension attribute for catalog product entity.
 
-1. Define database table/s schema for custom extension attribute in `Your/Module/Setup/InstallSchema.php`. [code](#InstallSchema)
-2. Define ACL resource for your custom extension attribute in `Your/Module/etc/acl.xml`. [code](#acl)
-3. Define your extension attribute configuration in `Your/Module/etc/extension_attributes.xml`. [code](#extension_attributes)
-4. Define your extension attribute intefrace in `Your\Module\Api\Data\CustomItemInterface.php`. [code](#CustomItemInterface)
+1. Database table schema for custom extension attribute in `Your/Module/Setup/InstallSchema.php`. **[sample code](#InstallSchema)**
+2. ACL resource for custom extension attribute in `Your/Module/etc/acl.xml`. **[sample code](#acl)**
+3. Extension attribute definition in `Your/Module/etc/extension_attributes.xml`. **[sample code](#extension_attributes)**
+4. Extension attribute intefrace in `Your\Module\Api\Data\CustomItemInterface.php`. **[sample code](#CustomItemInterface)**
 
 
 <a name="InstallSchema"></a>
