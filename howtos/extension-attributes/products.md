@@ -1,0 +1,1 @@
+Creating an extension attributes for catalog product entity
