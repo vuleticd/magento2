@@ -1,11 +1,15 @@
-# Custom extension attribute for catalog product entity.
+# Basic Custom extension attribute (catalog product entity example).
 
-1. Database table schema for custom extension attribute in `Your/Module/Setup/InstallSchema.php`. **[sample code](#InstallSchema)**
-2. ACL resource for custom extension attribute in `Your/Module/etc/acl.xml`. **[sample code](#acl)**
+
+
+1. Database table/s schema in `Your/Module/Setup/InstallSchema.php`. **[sample code](#InstallSchema)**
+2. ACL resource in `Your/Module/etc/acl.xml`. **[sample code](#acl)**
 3. Extension attribute definition in `Your/Module/etc/extension_attributes.xml`. **[sample code](#extension_attributes)**
 4. Extension attribute intefrace in `Your/Module/Api/Data/CustomItemInterface.php`. **[sample code](#CustomItemInterface)**
 5. Preference for extension attribute intefrace in `Your/Module/etc/di.xml`. **[sample code](#di1)**
-6. Model class for extension attribute in `Your/Module/Model/Custom/Item.php`. **[sample code](#ItemModel)**
+6. Model class in `Your/Module/Model/Custom/Item.php`. **[sample code](#ItemModel)**
+7. Resource Model class in `Your/Module/Model/ResourceModel/Custom/Item.php`. **[sample code](#ItemResourceModel)**
+8. Resource Model Collection class in `Your/Module/Model/ResourceModel/Custom/Item/Collection.php`. **[sample code](#ItemResourceModelCollection)**
 
 
 <a name="InstallSchema"></a>
@@ -69,7 +73,7 @@ class InstallSchema implements InstallSchemaInterface
                 $setup->getTable('catalog_product_entity'),
                 'entity_id',
                 \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-            )->setComment('Table Holding Custom Product Attributes Grouped Under Custom Item Extension Atttribute');
+            )->setComment('Custom Attributes And Their Relation With Extended Entity');
       
         $setup->getConnection()->createTable($table);
      
@@ -300,6 +304,42 @@ class Item extends AbstractExtensibleModel implements CustomItemInterface
         \Your\Module\Api\Data\CustomItemInterface $extensionAttributes
     ) {
         return $this->_setExtensionAttributes($extensionAttributes);
+    }
+}
+```
+
+
+<a name="ItemResourceModel"></a>
+```php
+<?php
+namespace Your\Module\Model\ResourceModel\Custom;
+
+use Magento\Framework\Model\ResourceModel\Db\Context;
+
+class Item extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
+{ 
+    protected function _construct()
+    {
+        $this->_init('custom_item', 'item_id');
+    }
+}
+```
+
+<a name="ItemResourceModelCollection"></a>
+```php
+<?php
+
+namespace Your\Module\Model\ResourceModel\Custom\Item;
+
+use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
+
+class Collection extends AbstractCollection
+{ 
+    protected $_idFieldName = 'item_id';
+  
+    protected function _construct()
+    {
+        $this->_init('Your\Module\Model\Custom\Item', 'Your\Module\Model\ResourceModel\Custom\Item');
     }
 }
 ```
